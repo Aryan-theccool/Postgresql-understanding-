@@ -1,0 +1,314 @@
+Server [localhost]:
+Database [postgres]:
+Port [5432]:
+Username [postgres]:
+Password for user postgres:
+
+psql (18.3)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# CREATE DATABASE TEST;
+CREATE DATABASE
+postgres=# \list
+                                                            List of databases
+   Name    |  Owner   | Encoding | Locale Provider |      Collate       |       Ctype        | Locale | ICU Rules |   Access privileges
+-----------+----------+----------+-----------------+--------------------+--------------------+--------+-----------+-----------------------
+ postgres  | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           |
+ template0 | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           | =c/postgres          +
+           |          |          |                 |                    |                    |        |           | postgres=CTc/postgres
+ template1 | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           | =c/postgres          +
+           |          |          |                 |                    |                    |        |           | postgres=CTc/postgres
+ test      | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           |
+(4 rows)
+
+
+postgres=# CREATE DATABASE test;
+CREATE DATABASE
+postgres=# \l
+                                                            List of databases
+   Name    |  Owner   | Encoding | Locale Provider |      Collate       |       Ctype        | Locale | ICU Rules |   Access privileges
+-----------+----------+----------+-----------------+--------------------+--------------------+--------+-----------+-----------------------
+ postgres  | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           |
+ template0 | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           | =c/postgres          +
+           |          |          |                 |                    |                    |        |           | postgres=CTc/postgres
+ template1 | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           | =c/postgres          +
+           |          |          |                 |                    |                    |        |           | postgres=CTc/postgres
+ test      | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           |
+(4 rows)
+
+
+postgres=# \c instadb;
+You are now connected to database "instadb" as user "postgres".
+instadb=# drop database test;
+ERROR:  database "test" is being accessed by other users
+DETAIL:  There is 1 other session using the database.
+instadb=# drop database test;
+DROP DATABASE
+instadb=#  \c persondb
+You are now connected to database "persondb" as user "postgres".
+persondb=# \d person;
+                      Table "public.person"
+ Column |          Type          | Collation | Nullable | Default
+--------+------------------------+-----------+----------+---------
+ id     | integer                |           |          |
+ name   | character varying(100) |           |          |
+ city   | character varying(100) |           |          |
+
+
+persondb=# \d person
+                      Table "public.person"
+ Column |          Type          | Collation | Nullable | Default
+--------+------------------------+-----------+----------+---------
+ id     | integer                |           |          |
+ name   | character varying(100) |           |          |
+ city   | character varying(100) |           |          |
+
+
+persondb=# ;
+persondb=# \d person;
+                      Table "public.person"
+ Column |          Type          | Collation | Nullable | Default
+--------+------------------------+-----------+----------+---------
+ id     | integer                |           |          |
+ name   | character varying(100) |           |          |
+ city   | character varying(100) |           |          |
+
+
+persondb=# \c employeedb
+You are now connected to database "employeedb" as user "postgres".
+employeedb=# select * from employee
+employeedb-# ;
+ emp_id | fname  | iname  |          email           |   dept    |  salary  | hire_date
+--------+--------+--------+--------------------------+-----------+----------+------------
+      1 | Raj    | Sharma | raj.sharma@example.com   | IT        | 50000.00 | 2020-01-15
+      2 | Priya  | Singh  | priya.singh@example.com  | HR        | 30000.00 | 2026-04-08
+      3 | Arjun  | Verma  | arjun.verma@example.com  | IT        | 30000.00 | 2026-04-08
+      4 | Suman  | Patel  | suman.patel@example.com  | Finance   | 60000.00 | 2018-07-30
+      5 | Kavita | Rao    | kavita.rao@example.com   | HR        | 47000.00 | 2020-11-10
+      6 | Amit   | Gupta  | amit.gupta@example.com   | Marketing | 52000.00 | 2020-09-25
+      7 | Neha   | Desai  | neha.desai@example.com   | IT        | 48000.00 | 2019-05-18
+      8 | Rahul  | Kumar  | rahul.kumar@example.com  | IT        | 53000.00 | 2021-02-14
+      9 | Anjali | Mehta  | anjali.mehta@example.com | Finance   | 61000.00 | 2018-12-03
+     10 | Vijay  | Nair   | vijay.nair@example.com   | Marketing | 50000.00 | 2020-04-19
+(10 rows)
+
+
+employeedb=#  select * from employee where emp_id=5;
+ emp_id | fname  | iname |         email          | dept |  salary  | hire_date
+--------+--------+-------+------------------------+------+----------+------------
+      5 | Kavita | Rao   | kavita.rao@example.com | HR   | 47000.00 | 2020-11-10
+(1 row)
+
+
+employeedb=#  select * from employee where dept='HR';
+ emp_id | fname  | iname |          email          | dept |  salary  | hire_date
+--------+--------+-------+-------------------------+------+----------+------------
+      2 | Priya  | Singh | priya.singh@example.com | HR   | 30000.00 | 2026-04-08
+      5 | Kavita | Rao   | kavita.rao@example.com  | HR   | 47000.00 | 2020-11-10
+(2 rows)
+
+
+employeedb=#  select * from employee where salary >50000;
+ emp_id | fname  | iname |          email           |   dept    |  salary  | hire_date
+--------+--------+-------+--------------------------+-----------+----------+------------
+      4 | Suman  | Patel | suman.patel@example.com  | Finance   | 60000.00 | 2018-07-30
+      6 | Amit   | Gupta | amit.gupta@example.com   | Marketing | 52000.00 | 2020-09-25
+      8 | Rahul  | Kumar | rahul.kumar@example.com  | IT        | 53000.00 | 2021-02-14
+      9 | Anjali | Mehta | anjali.mehta@example.com | Finance   | 61000.00 | 2018-12-03
+(4 rows)
+
+
+employeedb=#  select * from employee where dept ='HR' or dept='Finance';
+ emp_id | fname  | iname |          email           |  dept   |  salary  | hire_date
+--------+--------+-------+--------------------------+---------+----------+------------
+      2 | Priya  | Singh | priya.singh@example.com  | HR      | 30000.00 | 2026-04-08
+      4 | Suman  | Patel | suman.patel@example.com  | Finance | 60000.00 | 2018-07-30
+      5 | Kavita | Rao   | kavita.rao@example.com   | HR      | 47000.00 | 2020-11-10
+      9 | Anjali | Mehta | anjali.mehta@example.com | Finance | 61000.00 | 2018-12-03
+(4 rows)
+
+
+employeedb=#  select * from employee where dept ='HR' AND salary>50000;
+ emp_id | fname | iname | email | dept | salary | hire_date
+--------+-------+-------+-------+------+--------+-----------
+(0 rows)
+
+
+employeedb=#  select * from employee where dept ='HR' AND salary>5000;
+ emp_id | fname  | iname |          email          | dept |  salary  | hire_date
+--------+--------+-------+-------------------------+------+----------+------------
+      2 | Priya  | Singh | priya.singh@example.com | HR   | 30000.00 | 2026-04-08
+      5 | Kavita | Rao   | kavita.rao@example.com  | HR   | 47000.00 | 2020-11-10
+(2 rows)
+
+
+employeedb=#  select * from employee where dept IN('HR' ,'IT','Finance');
+ emp_id | fname  | iname  |          email           |  dept   |  salary  | hire_date
+--------+--------+--------+--------------------------+---------+----------+------------
+      1 | Raj    | Sharma | raj.sharma@example.com   | IT      | 50000.00 | 2020-01-15
+      2 | Priya  | Singh  | priya.singh@example.com  | HR      | 30000.00 | 2026-04-08
+      3 | Arjun  | Verma  | arjun.verma@example.com  | IT      | 30000.00 | 2026-04-08
+      4 | Suman  | Patel  | suman.patel@example.com  | Finance | 60000.00 | 2018-07-30
+      5 | Kavita | Rao    | kavita.rao@example.com   | HR      | 47000.00 | 2020-11-10
+      7 | Neha   | Desai  | neha.desai@example.com   | IT      | 48000.00 | 2019-05-18
+      8 | Rahul  | Kumar  | rahul.kumar@example.com  | IT      | 53000.00 | 2021-02-14
+      9 | Anjali | Mehta  | anjali.mehta@example.com | Finance | 61000.00 | 2018-12-03
+(8 rows)
+
+
+employeedb=#  select * from employee where dept NOT IN('HR' ,'IT','Finance');
+ emp_id | fname | iname |         email          |   dept    |  salary  | hire_date
+--------+-------+-------+------------------------+-----------+----------+------------
+      6 | Amit  | Gupta | amit.gupta@example.com | Marketing | 52000.00 | 2020-09-25
+     10 | Vijay | Nair  | vijay.nair@example.com | Marketing | 50000.00 | 2020-04-19
+(2 rows)
+
+
+employeedb=#  select * from employee where salary BETWEEN 40000 AND 60000;
+ emp_id | fname  | iname  |          email          |   dept    |  salary  | hire_date
+--------+--------+--------+-------------------------+-----------+----------+------------
+      1 | Raj    | Sharma | raj.sharma@example.com  | IT        | 50000.00 | 2020-01-15
+      4 | Suman  | Patel  | suman.patel@example.com | Finance   | 60000.00 | 2018-07-30
+      5 | Kavita | Rao    | kavita.rao@example.com  | HR        | 47000.00 | 2020-11-10
+      6 | Amit   | Gupta  | amit.gupta@example.com  | Marketing | 52000.00 | 2020-09-25
+      7 | Neha   | Desai  | neha.desai@example.com  | IT        | 48000.00 | 2019-05-18
+      8 | Rahul  | Kumar  | rahul.kumar@example.com | IT        | 53000.00 | 2021-02-14
+     10 | Vijay  | Nair   | vijay.nair@example.com  | Marketing | 50000.00 | 2020-04-19
+(7 rows)
+
+
+employeedb=#  select DISTINCT dept from employee;
+   dept
+-----------
+ Marketing
+ Finance
+ IT
+ HR
+(4 rows)
+
+
+employeedb=#  select DISTINCT salary from employee;
+  salary
+----------
+ 30000.00
+ 52000.00
+ 53000.00
+ 47000.00
+ 60000.00
+ 48000.00
+ 50000.00
+ 61000.00
+(8 rows)
+
+
+employeedb=#  select * from employee ORDER BY fname;
+ emp_id | fname  | iname  |          email           |   dept    |  salary  | hire_date
+--------+--------+--------+--------------------------+-----------+----------+------------
+      6 | Amit   | Gupta  | amit.gupta@example.com   | Marketing | 52000.00 | 2020-09-25
+      9 | Anjali | Mehta  | anjali.mehta@example.com | Finance   | 61000.00 | 2018-12-03
+      3 | Arjun  | Verma  | arjun.verma@example.com  | IT        | 30000.00 | 2026-04-08
+      5 | Kavita | Rao    | kavita.rao@example.com   | HR        | 47000.00 | 2020-11-10
+      7 | Neha   | Desai  | neha.desai@example.com   | IT        | 48000.00 | 2019-05-18
+      2 | Priya  | Singh  | priya.singh@example.com  | HR        | 30000.00 | 2026-04-08
+      8 | Rahul  | Kumar  | rahul.kumar@example.com  | IT        | 53000.00 | 2021-02-14
+      1 | Raj    | Sharma | raj.sharma@example.com   | IT        | 50000.00 | 2020-01-15
+      4 | Suman  | Patel  | suman.patel@example.com  | Finance   | 60000.00 | 2018-07-30
+     10 | Vijay  | Nair   | vijay.nair@example.com   | Marketing | 50000.00 | 2020-04-19
+(10 rows)
+
+
+employeedb=#  select * from employee ORDER BY fname DESC;
+ emp_id | fname  | iname  |          email           |   dept    |  salary  | hire_date
+--------+--------+--------+--------------------------+-----------+----------+------------
+     10 | Vijay  | Nair   | vijay.nair@example.com   | Marketing | 50000.00 | 2020-04-19
+      4 | Suman  | Patel  | suman.patel@example.com  | Finance   | 60000.00 | 2018-07-30
+      1 | Raj    | Sharma | raj.sharma@example.com   | IT        | 50000.00 | 2020-01-15
+      8 | Rahul  | Kumar  | rahul.kumar@example.com  | IT        | 53000.00 | 2021-02-14
+      2 | Priya  | Singh  | priya.singh@example.com  | HR        | 30000.00 | 2026-04-08
+      7 | Neha   | Desai  | neha.desai@example.com   | IT        | 48000.00 | 2019-05-18
+      5 | Kavita | Rao    | kavita.rao@example.com   | HR        | 47000.00 | 2020-11-10
+      3 | Arjun  | Verma  | arjun.verma@example.com  | IT        | 30000.00 | 2026-04-08
+      9 | Anjali | Mehta  | anjali.mehta@example.com | Finance   | 61000.00 | 2018-12-03
+      6 | Amit   | Gupta  | amit.gupta@example.com   | Marketing | 52000.00 | 2020-09-25
+(10 rows)
+
+
+employeedb=#  select * from employee ORDER BY emp_id DESC;
+ emp_id | fname  | iname  |          email           |   dept    |  salary  | hire_date
+--------+--------+--------+--------------------------+-----------+----------+------------
+     10 | Vijay  | Nair   | vijay.nair@example.com   | Marketing | 50000.00 | 2020-04-19
+      9 | Anjali | Mehta  | anjali.mehta@example.com | Finance   | 61000.00 | 2018-12-03
+      8 | Rahul  | Kumar  | rahul.kumar@example.com  | IT        | 53000.00 | 2021-02-14
+      7 | Neha   | Desai  | neha.desai@example.com   | IT        | 48000.00 | 2019-05-18
+      6 | Amit   | Gupta  | amit.gupta@example.com   | Marketing | 52000.00 | 2020-09-25
+      5 | Kavita | Rao    | kavita.rao@example.com   | HR        | 47000.00 | 2020-11-10
+      4 | Suman  | Patel  | suman.patel@example.com  | Finance   | 60000.00 | 2018-07-30
+      3 | Arjun  | Verma  | arjun.verma@example.com  | IT        | 30000.00 | 2026-04-08
+      2 | Priya  | Singh  | priya.singh@example.com  | HR        | 30000.00 | 2026-04-08
+      1 | Raj    | Sharma | raj.sharma@example.com   | IT        | 50000.00 | 2020-01-15
+(10 rows)
+
+
+employeedb=#  select * from employee LIMIT 3;
+ emp_id | fname | iname  |          email          | dept |  salary  | hire_date
+--------+-------+--------+-------------------------+------+----------+------------
+      1 | Raj   | Sharma | raj.sharma@example.com  | IT   | 50000.00 | 2020-01-15
+      2 | Priya | Singh  | priya.singh@example.com | HR   | 30000.00 | 2026-04-08
+      3 | Arjun | Verma  | arjun.verma@example.com | IT   | 30000.00 | 2026-04-08
+(3 rows)
+
+
+employeedb=#  select * from employee where fname like 'A%';
+ emp_id | fname  | iname |          email           |   dept    |  salary  | hire_date
+--------+--------+-------+--------------------------+-----------+----------+------------
+      3 | Arjun  | Verma | arjun.verma@example.com  | IT        | 30000.00 | 2026-04-08
+      6 | Amit   | Gupta | amit.gupta@example.com   | Marketing | 52000.00 | 2020-09-25
+      9 | Anjali | Mehta | anjali.mehta@example.com | Finance   | 61000.00 | 2018-12-03
+(3 rows)
+
+
+employeedb=#  select * from employee where fname like '%A';
+ emp_id | fname | iname | email | dept | salary | hire_date
+--------+-------+-------+-------+------+--------+-----------
+(0 rows)
+
+
+employeedb=#  select * from employee where fname like '%a';
+ emp_id | fname  | iname |          email          | dept |  salary  | hire_date
+--------+--------+-------+-------------------------+------+----------+------------
+      2 | Priya  | Singh | priya.singh@example.com | HR   | 30000.00 | 2026-04-08
+      5 | Kavita | Rao   | kavita.rao@example.com  | HR   | 47000.00 | 2020-11-10
+      7 | Neha   | Desai | neha.desai@example.com  | IT   | 48000.00 | 2019-05-18
+(3 rows)
+
+
+employeedb=#  select * from employee where fname like '%a%';
+ emp_id | fname  | iname  |          email           |   dept    |  salary  | hire_date
+--------+--------+--------+--------------------------+-----------+----------+------------
+      1 | Raj    | Sharma | raj.sharma@example.com   | IT        | 50000.00 | 2020-01-15
+      2 | Priya  | Singh  | priya.singh@example.com  | HR        | 30000.00 | 2026-04-08
+      4 | Suman  | Patel  | suman.patel@example.com  | Finance   | 60000.00 | 2018-07-30
+      5 | Kavita | Rao    | kavita.rao@example.com   | HR        | 47000.00 | 2020-11-10
+      7 | Neha   | Desai  | neha.desai@example.com   | IT        | 48000.00 | 2019-05-18
+      8 | Rahul  | Kumar  | rahul.kumar@example.com  | IT        | 53000.00 | 2021-02-14
+      9 | Anjali | Mehta  | anjali.mehta@example.com | Finance   | 61000.00 | 2018-12-03
+     10 | Vijay  | Nair   | vijay.nair@example.com   | Marketing | 50000.00 | 2020-04-19
+(8 rows)
+
+
+employeedb=#  select * from employee where dept like '__';
+ emp_id | fname  | iname  |          email          | dept |  salary  | hire_date
+--------+--------+--------+-------------------------+------+----------+------------
+      1 | Raj    | Sharma | raj.sharma@example.com  | IT   | 50000.00 | 2020-01-15
+      2 | Priya  | Singh  | priya.singh@example.com | HR   | 30000.00 | 2026-04-08
+      3 | Arjun  | Verma  | arjun.verma@example.com | IT   | 30000.00 | 2026-04-08
+      5 | Kavita | Rao    | kavita.rao@example.com  | HR   | 47000.00 | 2020-11-10
+      7 | Neha   | Desai  | neha.desai@example.com  | IT   | 48000.00 | 2019-05-18
+      8 | Rahul  | Kumar  | rahul.kumar@example.com | IT   | 53000.00 | 2021-02-14
+(6 rows)
+
+
+employeedb=#
