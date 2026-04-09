@@ -1,0 +1,176 @@
+ver [localhost]:
+Database [postgres]:
+Port [5432]:
+Username [postgres]:
+Password for user postgres:
+
+psql (18.3)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# \c employeedb
+You are now connected to database "employeedb" as user "postgres".
+employeedb=# \l
+                                                             List of databases
+    Name    |  Owner   | Encoding | Locale Provider |      Collate       |       Ctype        | Locale | ICU Rules |   Access privileges
+------------+----------+----------+-----------------+--------------------+--------------------+--------+-----------+-----------------------
+ employeedb | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           |
+ instadb    | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           |
+ persondb   | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           |
+ postgres   | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           |
+ template0  | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           | =c/postgres          +
+            |          |          |                 |                    |                    |        |           | postgres=CTc/postgres
+ template1  | postgres | UTF8     | libc            | English_India.1252 | English_India.1252 |        |           | =c/postgres          +
+            |          |          |                 |                    |                    |        |           | postgres=CTc/postgres
+(6 rows)
+
+
+employeedb=# SELECT SUBSTR('hello baDe',1,6);
+ substr
+--------
+ hello
+(1 row)
+
+
+employeedb=# SELECT REPLACE('hello baDe','baDe','Buddy');
+   replace
+-------------
+ hello Buddy
+(1 row)
+
+
+employeedb=# SELECT REPLACE(dept,'IT','TECH');
+ERROR:  column "dept" does not exist
+LINE 1: SELECT REPLACE(dept,'IT','TECH');
+                       ^
+employeedb=# SELECT REPLACE(dept,'IT','TECH') FROM employee;
+  replace
+-----------
+ TECH
+ HR
+ TECH
+ Finance
+ HR
+ Marketing
+ TECH
+ TECH
+ Finance
+ Marketing
+(10 rows)
+
+
+employeedb=# SELECT fname FROM employee WHERE LENGTH(fname)>5;
+ fname
+--------
+ Kavita
+ Anjali
+(2 rows)
+
+
+employeedb=# SELECT fname FROM employee WHERE LENGTH(fname)>4;
+ fname
+--------
+ Priya
+ Arjun
+ Suman
+ Kavita
+ Rahul
+ Anjali
+ Vijay
+(7 rows)
+
+
+employeedb=# SELECT UPPER(fname) FROM employee;
+ upper
+--------
+ RAJ
+ PRIYA
+ ARJUN
+ SUMAN
+ KAVITA
+ AMIT
+ NEHA
+ RAHUL
+ ANJALI
+ VIJAY
+(10 rows)
+
+
+employeedb=# SELECT LEFT('ARYANTHECOOL',6) FROM employee;
+  left
+--------
+ ARYANT
+ ARYANT
+ ARYANT
+ ARYANT
+ ARYANT
+ ARYANT
+ ARYANT
+ ARYANT
+ ARYANT
+ ARYANT
+(10 rows)
+
+
+employeedb=# SELECT LEFT('ARYANTHECOOL',6);
+  left
+--------
+ ARYANT
+(1 row)
+
+
+employeedb=# SELECT RIGHT('ARYANTHECOOL',6);
+ right
+--------
+ HECOOL
+(1 row)
+
+
+employeedb=# SELECT TRIM('   Aryanthecool    ');
+    btrim
+--------------
+ Aryanthecool
+(1 row)
+
+
+employeedb=# SELECT LENGTH('   Aryanthecool    ');
+ length
+--------
+     19
+(1 row)
+
+
+employeedb=# SELECT LENGTH(TRIM('   Aryanthecool    '));
+ length
+--------
+     12
+(1 row)
+
+
+employeedb=# SELECT POSITION(LENGTH(TRIM('an' in '   Aryanthecool    '));
+employeedb(# SELECT POSITION(LENGTH(TRIM('an' in '   Aryanthecool    ')));
+employeedb(# SELECT POSITION('an' in '   Aryanthecool    ');
+employeedb(# SELECT POSITION('an' in 'Aryanthecool');    ');
+employeedb'# SELECT POSITION('an' in 'Aryanthecool');
+employeedb'# SELECT POSITION('an' in 'Aryanthecool');
+employeedb'# SELECT POSITION('n in 'Aryanthecool');
+ERROR:  syntax error at or near "'   Aryanthecool    '"
+LINE 1: SELECT POSITION(LENGTH(TRIM('an' in '   Aryanthecool    '));
+                                            ^
+employeedb=# SELECT POSITION('n' in 'Aryanthecool');
+ position
+----------
+        5
+(1 row)
+
+
+employeedb=# SELECT POSITION('an' in 'Aryanthecool');
+ position
+----------
+        4
+(1 row)
+
+
+employeedb=#
