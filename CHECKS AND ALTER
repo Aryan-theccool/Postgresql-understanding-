@@ -1,0 +1,66 @@
+CREATE TABLE person(
+id INT ,
+name VARCHAR(100),
+city VARCHAR(100)
+);
+INSERT INTO person(id,name,city)
+VALUES(101,'ARYAN','indore');
+INSERT INTO person(id,name,city)
+VALUES(102,'singh','riva');
+INSERT INTO person(id,name,city)
+VALUES(103,'bh','mumbai');
+SELECT * FROM person;
+
+ALTER TABLE person
+ADD COLUMN age INT DEFAULT 18;
+
+ALTER TABLE person
+drop COLUMN age ;
+
+ALTER TABLE person 
+RENAME COLUMN name to fnameORlname ;
+
+ALTER TABLE person 
+RENAME to MAN;
+
+SELECT * FROM MAN;
+
+ALTER TABLE MAN
+ALTER COLUMN fnameORlname 
+SET DATA TYPE VARCHAR(200);
+
+ALTER TABLE MAN
+ALTER COLUMN fnameORlname 
+DROP DEFAULT ;
+
+INSERT INTO MAN(mob)
+VALUEs(1234567890);
+
+
+ALTER TABLE MAN
+ADD COLUMN
+mob VARCHAR(15)
+CHECK (LENGTH(mob)>=10);
+
+ALTER TABLE MAN
+DROP CONSTRAINT 
+MAN_mob_CHECK;
+
+INSERT INTO MAN(mob)
+VALUEs(12345);
+
+// error handling 
+
+
+ALTER TABLE MAN
+ADD CONSTRAINT mob_NO_LESSTHAN_10
+CHECK (LENGTH(mob)>=10);
+
+
+SELECT * 
+FROM man
+WHERE LENGTH(mob) < 10;
+
+UPDATE MAN
+SET mob=1234567890
+WHERE LENGTH(mob)<10;
